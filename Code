@@ -1,0 +1,23 @@
+Sub changecolor()
+
+Dim dict As New Scripting.Dictionary
+Dim key As Variant
+
+'get last rows from column a of sheet 1 and 2
+numrows1 = Sheets("Sheet1").Range("A" & Rows.Count).End(xlUp).Row
+numrows2 = Sheets("Sheet2").Range("A" & Rows.Count).End(xlUp).Row
+
+'add sheet 2 items to dictionary
+For i = 2 To numrows2
+    If Not dict.Exists(Sheets("Sheet2").Range("A" & i).Value2) Then
+        dict.Add key:=Sheets("Sheet2").Range("A" & i).Value2, Item:=Sheets("Sheet2").Range("A" & i).Offset(, 1).Interior.Color
+    End If
+Next i
+
+'match column a to dictionary then change cell color
+For i = 2 To numrows1
+    If dict.Exists(Sheets("Sheet1").Range("A" & i).Value2) Then
+        Sheets("Sheet1").Range("A" & i).Interior.Color = dict(Sheets("Sheet1").Range("A" & i).Value2)
+    End If
+
+Next i
